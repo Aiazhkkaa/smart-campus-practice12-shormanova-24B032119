@@ -76,6 +76,7 @@ Never report a check as passing without having run it.
 
 ## Publishing
 
-Do not publish, deploy, or push anywhere. This is an unfinished coursework
-artifact: the real low-code platform comparison is still pending, and the
-in-repo low-code path is a simulation only.
+Publish or push only when explicitly authorized by the user. The coursework
+demo and public repository were published in the authorized session on
+26 November 2026. The real visual low-code platform comparison remains
+pending. Preserve the visible simulation label on the in-repo workflow.

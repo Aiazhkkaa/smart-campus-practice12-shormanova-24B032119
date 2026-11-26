@@ -125,5 +125,8 @@ Any statement about relative build effort would be fabricated and is not made.
 
 ## Publishing status
 
-Not published, not deployed, not pushed anywhere. This is an unfinished
-coursework artefact pending the real low-code comparison.
+Published coursework demo: https://smart-campus-room-av-6bh7.bolt.host
+
+Public repository: https://github.com/Aiazhkkaa/smart-campus-practice12-shormanova-24B032119
+
+The real visual low-code platform comparison remains pending. The workflow in this repository is explicitly simulated.
