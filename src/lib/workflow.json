@@ -1,0 +1,79 @@
+{
+  "id": "study-room-availability",
+  "label": "Study Room Availability (simulated low-code workflow)",
+  "fields": [
+    { "name": "currentTime", "label": "Current time (min)", "type": "number", "min": 0, "max": 1440, "required": true },
+    { "name": "start", "label": "Start (min)", "type": "number", "min": 0, "max": 1440, "required": true },
+    { "name": "duration", "label": "Duration (min, 1-120)", "type": "number", "min": 1, "max": 120, "required": true },
+    { "name": "blocked", "label": "Room is blocked", "type": "boolean", "required": false }
+  ],
+  "steps": [
+    {
+      "name": "Validate input values",
+      "description": "Checks that currentTime, start and duration are finite integers within 0-1440 before any booking logic runs.",
+      "kind": "guard",
+      "config": {
+        "target": "all",
+        "min": 0,
+        "max": 1440,
+        "failureCode": "BAD_INPUT",
+        "failureMessage": "All time values must be whole numbers between 0 and 1440."
+      }
+    },
+    {
+      "name": "Reject past start",
+      "description": "The requested start must be strictly after the simulated current time.",
+      "kind": "compare",
+      "config": {
+        "left": "start",
+        "operator": "lt",
+        "right": "currentTime",
+        "failureCode": "IN_PAST",
+        "failureMessage": "Start must be strictly after the current time."
+      }
+    },
+    {
+      "name": "Enforce duration range",
+      "description": "Duration must be between 1 and 120 minutes inclusive.",
+      "kind": "range",
+      "config": {
+        "field": "duration",
+        "min": 1,
+        "max": 120,
+        "failureCode": "BAD_DURATION",
+        "failureMessage": "Duration must be between 1 and 120 minutes."
+      }
+    },
+    {
+      "name": "Check room blocked",
+      "description": "If the room is blocked, no booking is accepted at all.",
+      "kind": "flag",
+      "config": {
+        "field": "blocked",
+        "failureCode": "ROOM_BLOCKED",
+        "failureMessage": "Room is blocked."
+      }
+    },
+    {
+      "name": "Check booking overlap",
+      "description": "Rejects the request if it overlaps booking 600-660; touching endpoints are allowed.",
+      "kind": "overlap",
+      "config": {
+        "bookingStart": 600,
+        "bookingEnd": 660,
+        "bookingLabel": "CS101 Study Group",
+        "failureCode": "OVERLAP",
+        "failureMessage": "Overlaps existing booking \"CS101 Study Group\" (600-660)."
+      }
+    },
+    {
+      "name": "Approve booking",
+      "description": "All guards passed; the slot is available.",
+      "kind": "success",
+      "config": {
+        "reasonCode": "OK",
+        "message": "Available."
+      }
+    }
+  ]
+}
